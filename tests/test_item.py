@@ -49,9 +49,9 @@ def test_item_class():
     assert products[4].price == '75'
     assert products[4].quantity == 5
 
+    # TestCase __repr__
+    item3 = Item("Bazooka", 20, 1)
+    assert repr(item3) == "Item('Bazooka', 20, 1)"
 
-
-
-
-
-
+    # TestCase __str__
+    assert str(item3) == "Bazooka"
