@@ -50,17 +50,16 @@ class Item:
             raise Exception('Длина наименования товара превышает 10 символов.')
         self.__name = name
 
-
     @classmethod
     def instantiate_from_csv(cls):
-        with open("../src/items.csv", newline='', encoding="utf-8") as csvfile:
-                data = csv.DictReader(csvfile)
-                for row in data:
-                    name = row['name']
-                    price = row['price']
-                    quantity = int(row['quantity'])
-                    item = cls(name, price, quantity)
-                    cls.all.append(item)
+        with open("items.csv", newline='', encoding="utf-8") as csvfile:
+            data = csv.DictReader(csvfile)
+            for row in data:
+                name = row['name']
+                price = row['price']
+                quantity = int(row['quantity'])
+                item = cls(name, price, quantity)
+                cls.all.append(item)
         return cls.all
 
     @staticmethod
@@ -70,16 +69,3 @@ class Item:
         except ValueError:
             num = int(string[0])
             return num
-
-
-
-
-
-
-
-
-
-
-
-
-
