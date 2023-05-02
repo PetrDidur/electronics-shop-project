@@ -1,7 +1,10 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
+import os.path
+
 from src.item import Item
+from src.phone import Phone
 
-
+path = os.path.join("../src/", "items.csv")
 def test_item_class():
     item1 = Item("Смартфон", 10000, 20)
     item2 = Item("Ноутбук", 20000, 5)
@@ -84,7 +87,15 @@ def test_repr():
     item3 = Item("Bazooka", 20, 1)
     assert repr(item3) == "Item('Bazooka', 20, 1)"
 
+
 def test_str():
     # TestCase __str__
     item3 = Item("Bazooka", 20, 1)
     assert str(item3) == "Bazooka"
+
+
+def test_add():
+    item = Item("Bazooka", 20, 1)
+    phone = Phone("iPhone 14", 120_000, 5, 2)
+
+    assert item + phone == 6
