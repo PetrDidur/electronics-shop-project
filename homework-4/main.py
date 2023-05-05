@@ -14,6 +14,9 @@ if __name__ == '__main__':
     assert item1 + phone1 == 25
     assert phone1 + phone1 == 10
 
+    num = phone1 + item1
+    print(num)
+
 
     #phone1.number_of_sim = 0
     # ValueError: Количество физических SIM-карт должно быть целым числом больше нуля.

@@ -29,8 +29,7 @@ class Item:
         return f'{self.__name}'
 
     def __add__(self, other):
-        if isinstance(other, self.__class__):
-            return self.quantity + other.quantity
+        return self.quantity + other.quantity
 
     def calculate_total_price(self) -> float:
         """
