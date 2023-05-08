@@ -5,6 +5,8 @@ from src.item import Item
 from src.phone import Phone
 
 path = os.path.join("../src/", "items.csv")
+
+
 def test_item_class():
     item1 = Item("Смартфон", 10000, 20)
     item2 = Item("Ноутбук", 20000, 5)
@@ -81,6 +83,7 @@ def test_instantiate_from_csv():
     assert products[4].name == "Клавиатура"
     assert products[4].price == '75'
     assert products[4].quantity == 5
+
 
 def test_repr():
     # TestCase __repr__
