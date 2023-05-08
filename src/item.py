@@ -10,7 +10,8 @@ class Item:
     pay_rate = 1.0
     all = []
 
-    def __init__(self, name, price: float, quantity: int) -> None:
+    def __init__(self, name: str, price: float, quantity: int) -> None:
+        super().__init__()
         """
         Создание экземпляра класса item.
 
@@ -74,3 +75,24 @@ class Item:
         except ValueError:
             num = int(string[0])
             return num
+
+
+class LanguageMixin:
+    def __init__(self):
+        self.language = 'EN'
+
+    def change_lang(self):
+        if self.language == 'EN':
+            self.language = 'RU'
+            return self
+        elif self.language == 'RU':
+            self.language = 'EN'
+            return self
+        else:
+            raise AttributeError("property 'language' of 'KeyBoard' object has no setter")
+
+
+class Keyboard(Item, LanguageMixin):
+    def __init__(self, name, price: float, quantity: int):
+        super().__init__(name, price, quantity)
+
