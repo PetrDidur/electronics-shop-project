@@ -79,17 +79,19 @@ class Item:
 
 class LanguageMixin:
     def __init__(self):
-        self.language = 'EN'
+        self.__language = 'EN'
+
+    @property
+    def language(self):
+        return self.__language
 
     def change_lang(self):
         if self.language == 'EN':
-            self.language = 'RU'
+            self.__language = 'RU'
             return self
         elif self.language == 'RU':
-            self.language = 'EN'
+            self.__language = 'EN'
             return self
-        else:
-            raise AttributeError("property 'language' of 'KeyBoard' object has no setter")
 
 
 class Keyboard(Item, LanguageMixin):
