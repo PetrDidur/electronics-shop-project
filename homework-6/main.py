@@ -1,4 +1,4 @@
-from src.item import Item
+from src.item import Item, InstantiateCSVError
 
 if __name__ == '__main__':
     # Файл items.csv отсутствует.

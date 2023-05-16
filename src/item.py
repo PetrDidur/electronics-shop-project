@@ -3,7 +3,13 @@ import os
 
 path = os.path.join("../src/", "items.csv")
 
+
+class InstantiateCSVError(Exception):
+    print("Файл item.csv поврежден")
+
+
 class Item:
+
     """
     Класс для представления товара в магазине.
     """
@@ -58,14 +64,20 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls):
-        with open(path, newline='', encoding="utf-8") as csvfile:
-            data = csv.DictReader(csvfile)
-            for row in data:
-                name = row['name']
-                price = row['price']
-                quantity = int(row['quantity'])
-                item = cls(name, price, quantity)
-                cls.all.append(item)
+        try:
+            with open(path, newline='', encoding="utf-8") as csvfile:
+                data = csv.DictReader(csvfile)
+                for row in data:
+                        name = row['name']
+                        price = row['price']
+                        quantity = int(row['quantity'])
+            item = cls(name, price, quantity)
+            cls.all.append(item)
+        except KeyError:
+            raise InstantiateCSVError
+        except FileNotFoundError:
+            raise FileNotFoundError("Отсутствует файл item.csv")
+
         return cls.all
 
     @staticmethod
