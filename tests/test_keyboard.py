@@ -12,7 +12,7 @@ def test_change_lang():
     kb.change_lang().change_lang()
     assert str(kb.language) == "RU"
 
-    kb.language = 'CH'
-    # AttributeError: property 'language' of 'KeyBoard' object has no setter
+    
+
 
 
