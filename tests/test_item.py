@@ -1,7 +1,9 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
 import os.path
 
-from src.item import Item
+import pytest as pytest
+
+from src.item import Item, InstantiateCSVError
 from src.phone import Phone
 
 path = os.path.join("../src/", "items.csv")
@@ -65,26 +67,6 @@ def test_string_to_number():
         assert str(e) == "Длина наименования товара превышает 10 символов."
 
 
-def test_instantiate_from_csv():
-    products = Item.instantiate_from_csv()
-    assert len(products) == 5
-    assert products[0].name == "Смартфон"
-    assert products[0].price == '100'
-    assert products[0].quantity == 1
-    assert products[1].name == "Ноутбук"
-    assert products[1].price == '1000'
-    assert products[1].quantity == 3
-    assert products[2].name == "Кабель"
-    assert products[2].price == '10'
-    assert products[2].quantity == 5
-    assert products[3].name == "Мышка"
-    assert products[3].price == '50'
-    assert products[3].quantity == 5
-    assert products[4].name == "Клавиатура"
-    assert products[4].price == '75'
-    assert products[4].quantity == 5
-
-
 def test_repr():
     # TestCase __repr__
     item3 = Item("Bazooka", 20, 1)
@@ -102,3 +84,49 @@ def test_add():
     phone = Phone("iPhone 14", 120_000, 5, 2)
 
     assert item + phone == 6
+
+
+
+def test_instantiate_from_csv():
+    # Вызываем метод instantiate_from_csv
+    items = Item.instantiate_from_csv(path)
+
+    # Проверяем результат
+    assert len(items) == 5
+    assert items[0].name == 'Смартфон'
+    assert items[0].price == '100'
+    assert items[0].quantity == 1
+    assert items[1].name == 'Ноутбук'
+    assert items[1].price == '1000'
+    assert items[1].quantity == 3
+    assert items[2].name == 'Кабель'
+    assert items[2].price == '10'
+    assert items[2].quantity == 5
+    assert items[3].name == 'Мышка'
+    assert items[3].price == '50'
+    assert items[3].quantity == 5
+    assert items[4].name == 'Клавиатура'
+    assert items[4].price == '75'
+    assert items[4].quantity == 5
+
+def test_instantiate_from_csv_missing_file():
+    # Проверяем, что исключение FileNotFoundError возбуждается
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv(path="g.csv")
+
+@pytest.fixture
+def corrupted_csv_file(tmp_path):
+    # Создаем временный CSV файл с неправильными данными
+    csv_data = '''name,price, quantity
+                  Item 1,10,5
+                  Item 2,20'''
+    file_path = tmp_path / 'test.csv'
+    with open(file_path, 'w', encoding='utf-8') as csvfile:
+        csvfile.write(csv_data)
+
+    return file_path
+
+def test_instantiate_from_csv_corrupted_file(corrupted_csv_file):
+    # Проверяем, что исключение InstantiateCSVError возбуждается
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv(corrupted_csv_file)
