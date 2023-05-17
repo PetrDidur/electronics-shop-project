@@ -5,7 +5,7 @@ path = os.path.join("../src/", "items.csv")
 
 
 class InstantiateCSVError(Exception):
-    print("Файл item.csv поврежден")
+    pass
 
 
 class Item:
@@ -63,7 +63,7 @@ class Item:
         self.__name = name
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls, path):
         try:
             with open(path, newline='', encoding="utf-8") as csvfile:
                 data = csv.DictReader(csvfile)
@@ -71,10 +71,10 @@ class Item:
                         name = row['name']
                         price = row['price']
                         quantity = int(row['quantity'])
-            item = cls(name, price, quantity)
-            cls.all.append(item)
+                        item = cls(name, price, quantity)
+                        cls.all.append(item)
         except KeyError:
-            raise InstantiateCSVError
+            raise InstantiateCSVError("Файл поврежден")
         except FileNotFoundError:
             raise FileNotFoundError("Отсутствует файл item.csv")
 
